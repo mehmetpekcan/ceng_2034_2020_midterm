@@ -1,0 +1,136 @@
+\documentclass[onecolumn]{article}
+%\usepackage{url}
+%\usepackage{algorithmic}
+\usepackage[a4paper]{geometry}
+\usepackage{datetime}
+\usepackage[margin=2em, font=small,labelfont=it]{caption}
+\usepackage{graphicx}
+\usepackage{mathpazo} % use palatino
+\usepackage[defaultfam,tabular,lining]{montserrat}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{subfigure}
+
+% Letterspacing macros
+\newcommand{\spacecaps}[1]{\textls[200]{\MakeUppercase{#1}}}
+\newcommand{\spacesc}[1]{\textls[50]{\textsc{\MakeLowercase{#1}}}}
+
+
+
+\title{\spacecaps{Assignment Report 1: Process and Thread Implementation}\\ \normalsize \spacesc{CENG2034, Operating Systems} }
+
+\author{Mehmet Pekcan\\mehmetpekcan@posta.mu.edu.tr\\github: mehmetpekcan}
+%\date{\today\\\currenttime}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+At the last decades, the development of computer hardware and the resource consumption of applications were very fast. However, with the slowdown in the development of computer hardware in recent years, the resource consumption of the applications used is still increasing rapidly, and the gap between hardware and resource usage is opening wide. To close this gap is with the development of the hardware part, but also based on the fact that the developed applications are based on a smart architecture.
+\end{abstract}
+
+
+\section{Introduction}
+The purpose of this report is to learn how the processes work and learn the basics of developing our applications faster and with less resource consumption with a solid architecture using thread.
+
+\section{Assignments}
+In this project, synchronous thread operations were performed using python. At the same time, the process id of the application and how much load it was given to the user were shown.
+
+\subsection{What is used in the project\\}
+
+\subsubsection{Which kernel and system version used in the project}
+System Version: macOS 10.15.3 (19D76)
+Kernel Version: Darwin 19.3.0
+
+\subsubsection{Which language and version used in the project}
+Python and version 3.8.0 were used.
+
+\subsubsection{Which libraries used in the project}
+\textbf{os}, for using operating systems command which is basically codes that uses in terminal \\
+\textbf{sys}, it is big library for system command but we will only use exit and clear command from them\\
+\textbf{time}, this for fun, i just want to give a mood like real world project so that i will use sleep command for a second\\
+\textbf{threading}, this is for threading operations\\
+\textbf{requests}, this is for requesting site and getting response from them\\
+
+\subsection{Problems and How to solve them in the project\\}
+
+\subsubsection{How to reach Process id of process?}
+For this, i used \textbf{os} library. First imported os library then, \textbf{getpid} method. It gives us process id of the running script/program.
+
+\begin{center}
+    \includegraphics[width=.6\textwidth]{pid.png}
+\end{center}
+
+\subsubsection{How to reach Load averages of process?}
+For this, i used \textbf{os} library. First imported os library then, \textbf{getloadavg} method. It returns a tupple that contain 3 integers, first one of is that load average over the last 1 minute, second one is 5 minutes the last one is 15 minutes of the load average of the running program.
+
+\begin{center}
+    \includegraphics[width=.6\textwidth]{loadaverages.png}
+\end{center}
+
+\subsubsection{How to reach exact minutes a load average of process}
+For this, first you implement the above codes then you just need to take one of them. It is easy to as seen below.
+
+\begin{center}
+    \includegraphics[width=.6\textwidth]{loadaverage.png}
+\end{center}
+
+\subsubsection{Checking links are valid or not}
+For this, i used \textbf{requests} and \textbf{threading} libraries. Requests library is for sending request to http servers. Then getting response from them.And threading library is for creating a thread for our next process and using them. For implement them, first i created a thread using \textbf{Thread} function is takes a constructor which is function and arguments. I give them and started it, after started that process thread using \textbf{start} function in threading lib. Then i use \textbf{join} function which is again in threading lib. As you seen above the code is like:
+
+\begin{center}
+    \includegraphics[width=.6\textwidth]{thread.png}
+\end{center}
+
+After then, lets look at the \textbf{requestByThread} function, as i said before i used \textbf{requests} library for it. We can send request using \textbf{get} after that request i used \textbf{statuscode} function. Lets see how looks after i implemented it.
+
+\begin{center}
+    \includegraphics[width=.6\textwidth]{threadAfterRequest.png}
+\end{center}
+
+\subsubsection{Controlling of CPU usage of our program}
+For this, i substracted cpu count using \textbf{cpu count} method from \textbf{getloadavg} if it is less than 1 that means our program is overloads to our system. 
+
+\begin{center}
+    \includegraphics[width=.6\textwidth]{cpuoverloaded.png}
+\end{center}
+
+\section{Results}
+
+In the previous section, we did see how to implement our tasks to code. Lets fresh out. First i did implement process id using \textbf{getpid} and the result looks like that
+
+\begin{center}
+    \includegraphics[width=.6\textwidth]{pidConsole.png}
+\end{center}
+
+Then i determined the load average of process using \textbf{getloadavg} function and the result looks like that
+
+\begin{center}
+    \includegraphics[width=.6\textwidth]{loadConsole.png}
+\end{center}
+
+After that i implemented the most important part which is sending request using threads. After whole these implementations, lets compare sending request using threads and not using threads. Lets try to understand what is the benefits of using threads in our scripts. 
+
+\begin{center}
+    \includegraphics[width=.6\textwidth]{noThread.png}
+\end{center}
+
+Above code is implementing not using threads and as we see it took to run 3.90seconds.
+
+
+\begin{center}
+    \includegraphics[width=.6\textwidth]{usingThread.png}
+\end{center}
+
+Now, above code is implementing using threads and as we see it took to run 1.29seconds. There is obviously a run time difference. And the second one is the efficient way to implement these program.
+
+\section{Conclusion}
+
+As a result, we saw all scripts/programs has own process id that is unique for that script in every running time. And we saw that process id specifically Unix based operating systems. On the other hand, every process has a cost on our operating system. And basically we saw the cost only over 1, 5, 15 minutes. And the most important part was how we implement our program architecture because it is related with the payload of program towards our operating system. And we saw that if we implement our program based on good threading base, we saw that it runs taking less time. In the big puzzle, we should know that we can serve better program to user without pushing them to upgrade their hardware, it is just a refactoring thing. 
+
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}
+
